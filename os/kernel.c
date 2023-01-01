@@ -1,5 +1,6 @@
+#include "os.h"
+
 extern void uart_init(void);
-extern void uart_puts(char *s);
 
 void start_kernel()
 {
