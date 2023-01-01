@@ -1,5 +1,6 @@
 SRCS_ASM = \
 	boot.S \
+	mem.S \
 
 SRCS_C = \
 	kernel.c \
