@@ -17,7 +17,7 @@ all: os.elf
 
 # start.o must be the first in dependency!
 os.elf: ${OBJS}
-	${CC} ${CFLAGS} -Ttext=0x80000000 -o os.elf $^
+	${CC} ${CFLAGS} -T os.ld -o os.elf $^
 
 %.o : %.c
 	${CC} ${CFLAGS} -c -o $@ $<

@@ -2,10 +2,10 @@
 
     .equ STACK_SIZE, 1024
 
-    .global _start
+    .global _boot
 
     .text
-_start:
+_boot:
     csrr t0, mhartid
     mv tp, t0
     bnez t0, park // Just one hart
