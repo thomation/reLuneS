@@ -63,5 +63,8 @@ extern int  task_create(void (*task)(void* param), void* param, uint8_t priority
 extern void task_delay(volatile int count);
 extern void task_yield();
 extern void task_exit();
+/* plic */
+extern int plic_claim(void);
+extern void plic_complete(int irq);
 
 #endif
