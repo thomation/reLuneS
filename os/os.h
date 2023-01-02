@@ -53,9 +53,11 @@ struct context {
 	reg_t t4;
 	reg_t t5;
 	reg_t t6;
+
+	uint8_t task_priority;
 };
 
-extern int  task_create(void (*task)(void));
+extern int  task_create(void (*task)(void* param), void* param, uint8_t priority);
 extern void task_delay(volatile int count);
 extern void task_yield();
 
