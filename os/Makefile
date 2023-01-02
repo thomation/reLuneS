@@ -9,6 +9,7 @@ SRCS_C = \
 	printf.c \
 	page.c \
 	sched.c \
+	trap.c \
 	user.c \
 
 OBJS = $(SRCS_ASM:.S=.o)
