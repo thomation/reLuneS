@@ -11,6 +11,7 @@ SRCS_C = \
 	sched.c \
 	trap.c \
 	plic.c \
+	timer.c \
 	user.c \
 
 OBJS = $(SRCS_ASM:.S=.o)

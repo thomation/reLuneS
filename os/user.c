@@ -45,7 +45,7 @@ void user_task2(void *param)
         uart_puts("Task 2: Running...\n");
         task_delay(DELAY);
         task_yield();
-        *(int *)0x00000000 = 100; // Cause exception
+        // *(int *)0x00000000 = 100; // Cause exception
     }
 }
 /* NOTICE: DON'T LOOP INFINITELY IN main() */
