@@ -9,17 +9,18 @@ void idle(void *param)
     {
         uart_puts("Idle Task: Running...\n");
         task_delay(DELAY);
-        // task_yield();
+        task_yield();
     }
 }
 void user_task0(void *param)
 {
     printf("Task 0: Created! param: %d\n", param);
+    task_yield();
+    printf("Task 0: I'm back param: %d\n", param);
     while (1)
     {
         uart_puts("Task 0: Running...\n");
         task_delay(DELAY);
-        // task_yield();
     }
 }
 
@@ -54,6 +55,6 @@ void os_main(void *param)
     int times = 10;
     task_create(idle, NULL, 255);
     task_create(user_task0, NULL, 10);
-    // task_create(user_task1, (void*)times, 5);
+    task_create(user_task1, (void*)times, 5);
     task_create(user_task2, NULL, 10);
 }

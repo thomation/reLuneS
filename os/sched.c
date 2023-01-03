@@ -15,6 +15,9 @@ static int _current = -1;
 void sched_init()
 {
 	w_mscratch(0);
+	/* enable machine-mode software interrupts. */
+	w_mie(r_mie() | MIE_MSIE);
+
 }
 void schedule()
 {
@@ -73,13 +76,15 @@ int task_create(void (*start_routin)(void *param), void *param, uint8_t priority
 }
 void task_yield()
 {
-	schedule();
+	/* trigger a machine-level software interrupt */
+	int id = r_mhartid();
+	*(uint32_t*)CLINT_MSIP(id) = 1;
 }
 void task_exit()
 {
 	struct context *current = &(ctx_tasks[_current]);
 	current->task_status = 0;
-	schedule();
+	task_yield();
 }
 void task_delay(volatile int count)
 {
