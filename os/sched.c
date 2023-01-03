@@ -32,6 +32,7 @@ void schedule()
 	{
 		_current = find_next_task();
 	}
+	printf("Current is %d\n", _current);
 	struct context *next = &(ctx_tasks[_current]);
 	switch_to(next);
 }
@@ -58,7 +59,7 @@ int task_create(void (*start_routin)(void *param), void *param, uint8_t priority
 	if (_top < MAX_TASKS)
 	{
 		ctx_tasks[_top].sp = (reg_t)&task_stack[_top][STACK_SIZE - 1];
-		ctx_tasks[_top].ra = (reg_t)start_routin;
+		ctx_tasks[_top].mepc = (reg_t)start_routin;
 		ctx_tasks[_top].a0 = param;
 		ctx_tasks[_top].task_priority = priority;
 		ctx_tasks[_top].task_status = 1;

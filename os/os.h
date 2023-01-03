@@ -55,6 +55,8 @@ struct context {
 	reg_t t5;
 	reg_t t6;
 
+	reg_t mepc;// offset: 31 *4 = 124
+
 	uint8_t task_priority;
 	uint8_t task_status;
 };

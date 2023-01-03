@@ -1,5 +1,6 @@
 #include "os.h"
 
+extern void schedule(void);
 /* interval ~= 1s */
 #define TIMER_INTERVAL CLINT_TIMEBASE_FREQ
 
@@ -35,4 +36,6 @@ void timer_handler()
 	printf("tick: %d\n", _tick);
 
 	timer_load(TIMER_INTERVAL);
+
+	schedule();
 }

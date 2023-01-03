@@ -9,7 +9,7 @@ void idle(void *param)
     {
         uart_puts("Idle Task: Running...\n");
         task_delay(DELAY);
-        task_yield();
+        // task_yield();
     }
 }
 void user_task0(void *param)
@@ -19,14 +19,14 @@ void user_task0(void *param)
     {
         uart_puts("Task 0: Running...\n");
         task_delay(DELAY);
-        task_yield();
+        // task_yield();
     }
 }
 
 void user_task1(void *param)
 {
     uart_puts("Task 1: Created!\n");
-    int times = param;
+    int times = (int)param;
     for (int i = 0; i < times; i++)
     {
         printf("Task 1: Running count:%d...\n", i);
@@ -44,7 +44,7 @@ void user_task2(void *param)
     {
         uart_puts("Task 2: Running...\n");
         task_delay(DELAY);
-        task_yield();
+        // task_yield();
         // *(int *)0x00000000 = 100; // Cause exception
     }
 }
@@ -53,7 +53,7 @@ void os_main(void *param)
 {
     int times = 10;
     task_create(idle, NULL, 255);
-    task_create(user_task0, times, 10);
-    task_create(user_task1, times, 5);
-    task_create(user_task2, times, 10);
+    task_create(user_task0, NULL, 10);
+    // task_create(user_task1, (void*)times, 5);
+    task_create(user_task2, NULL, 10);
 }
