@@ -17,10 +17,16 @@ void user_task0(void *param)
     printf("Task 0: Created! param: %d\n", param);
     task_yield();
     printf("Task 0: I'm back param: %d\n", param);
+    int times = (int)param;
     while (1)
     {
-        uart_puts("Task 0: Running...\n");
-        task_delay(DELAY);
+        spin_lock();
+        for (int i = 0; i < times; i++)
+        {
+            printf("Task 0: Running... %d \n", i);
+            task_delay(DELAY);
+        }
+        spin_unlock();
     }
 }
 
@@ -41,10 +47,16 @@ void user_task1(void *param)
 void user_task2(void *param)
 {
     uart_puts("Task 2: Created!\n");
+    int times = (int)param;
     while (1)
     {
-        uart_puts("Task 2: Running...\n");
-        task_delay(DELAY);
+        spin_lock();
+        for (int i = 0; i < times; i++)
+        {
+            printf("Task 2: Running... %d \n", i);
+            task_delay(DELAY);
+        }
+        spin_unlock();
         // task_yield();
         // *(int *)0x00000000 = 100; // Cause exception
     }
@@ -52,9 +64,8 @@ void user_task2(void *param)
 /* NOTICE: DON'T LOOP INFINITELY IN main() */
 void os_main(void *param)
 {
-    int times = 10;
     task_create(idle, NULL, 255);
-    task_create(user_task0, NULL, 10);
-    task_create(user_task1, (void*)times, 5);
-    task_create(user_task2, NULL, 10);
+    task_create(user_task0, (void *)5, 10);
+    // task_create(user_task1, 10, 5);
+    task_create(user_task2, (void *)5, 10);
 }
