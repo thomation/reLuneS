@@ -24,6 +24,22 @@ _boot:
     la sp, stacks + STACK_SIZE
     add sp, sp, t0
 
+
+    # https://lore.kernel.org/qemu-devel/20201223192553.332508-1-atish.patra@wdc.com/
+	# For qemu version >= 6.0, exception would be raised if no PMP enty is
+	# configured. So just configure one entny, which allows all the whole
+	# 32-bits physical address range is R/W/X.
+	# FIXME: I say it is a temporary workaroud due to I think the patch
+	# above contains bug, and I have raised new issue to qemu but it has not
+	# been rootcaused till now. Details please refer to
+	# https://gitlab.com/qemu-project/qemu/-/issues/585 or
+	# https://gitee.com/unicornx/riscv-operating-system-mooc/issues/I441IC (in chinese)
+	# So it's just a temporary workaround till now to not block people who
+	# want to try newer qemu (>= 6.0).
+	li      t0, 0xffffffff
+	csrw    pmpaddr0, t0
+	li      t0, 0xf
+	csrw    pmpcfg0, t0
     # At the end of start_kernel, schedule() will call MRET to switch
 	# to the first task, so we parepare the mstatus here.
 	# Notice: default mstatus is 0

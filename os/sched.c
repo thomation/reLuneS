@@ -59,6 +59,7 @@ int find_next_task()
 }
 int task_create(void (*start_routin)(void *param), void *param, uint8_t priority)
 {
+	printf("Create task\n");
 	if (_top < MAX_TASKS)
 	{
 		ctx_tasks[_top].sp = (reg_t)&task_stack[_top][STACK_SIZE - 1];

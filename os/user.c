@@ -1,4 +1,5 @@
 #include "os.h"
+#include "user_api.h"
 
 #define DELAY 1000
 
@@ -33,9 +34,6 @@ void user_task0(void *param)
 void user_task1(void *param)
 {
     uart_puts("Task 1: Created!\n");
-    uart_puts("Task 1: get hart id!\n");
-    int hid = r_mhartid();
-	printf("hart id is %d\n", hid);
     int times = (int)param;
     for (int i = 0; i < times; i++)
     {
@@ -64,11 +62,29 @@ void user_task2(void *param)
         // *(int *)0x00000000 = 100; // Cause exception
     }
 }
+void user_task3(void *param)
+{
+    uart_puts("Task 3: Created!\n");
+    uart_puts("Task 3: get hart id!\n");
+    // int hid = r_mhartid();
+    int hid = -1;
+    int ret = gethid(&hid);
+    if(ret == 0)
+        printf("hart id is %d\n", hid);
+    else
+        printf("getthid error %d\n", ret);
+    while (1){
+		uart_puts("Task 3: Running... \n");
+		task_delay(DELAY);
+	}
+
+}
 /* NOTICE: DON'T LOOP INFINITELY IN main() */
 void os_main(void *param)
 {
-    task_create(idle, NULL, 255);
-    task_create(user_task0, (void *)5, 10);
-    task_create(user_task1, (void*)10, 5);
-    task_create(user_task2, (void *)5, 10);
+    // task_create(idle, NULL, 255);
+    // task_create(user_task0, (void *)5, 10);
+    // task_create(user_task1, (void*)10, 5);
+    // task_create(user_task2, (void *)5, 10);
+    task_create(user_task3, NULL, 10); // Only task3 can run, because task yield must be in M mode
 }
