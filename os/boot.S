@@ -29,7 +29,8 @@ _boot:
 	# Notice: default mstatus is 0
 	# Set mstatus.MPP to 3, so we still run in Machine mode after MRET.
 	# Set mstatus.MPIE to 1, so MRET will enable the interrupt.
-	li	t0, 3 << 11 | 1 << 7
+	# li	t0, 3 << 11 | 1 << 7
+	li	t0, 1 << 7 # Just support u mode
 	csrr	a1, mstatus
 	or	t0, t0, a1
 	csrw	mstatus, t0

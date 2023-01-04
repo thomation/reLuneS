@@ -33,6 +33,9 @@ void user_task0(void *param)
 void user_task1(void *param)
 {
     uart_puts("Task 1: Created!\n");
+    uart_puts("Task 1: get hart id!\n");
+    int hid = r_mhartid();
+	printf("hart id is %d\n", hid);
     int times = (int)param;
     for (int i = 0; i < times; i++)
     {
@@ -66,6 +69,6 @@ void os_main(void *param)
 {
     task_create(idle, NULL, 255);
     task_create(user_task0, (void *)5, 10);
-    // task_create(user_task1, 10, 5);
+    task_create(user_task1, (void*)10, 5);
     task_create(user_task2, (void *)5, 10);
 }
